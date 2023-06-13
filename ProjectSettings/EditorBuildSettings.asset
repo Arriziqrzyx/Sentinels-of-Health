@@ -8,10 +8,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Menu.unity
     guid: 2cda990e2423bbf4892e6590ba056729
-  - enabled: 0
-    path: Assets/Scenes/Menu2.unity
-    guid: 3cc53869097bc254f8c262c98a68f727
   - enabled: 1
     path: Assets/Scenes/Rangkuman.unity
     guid: fd555963a17b68c4881ec3af7473aa5a
+  - enabled: 1
+    path: Assets/Scenes/PilihMakan.unity
+    guid: 206356a2b127c534f8f21d495a61b183
   m_configObjects: {}
