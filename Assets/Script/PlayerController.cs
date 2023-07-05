@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
@@ -13,111 +14,92 @@ public class PlayerController : MonoBehaviour
     public bool tanah; // Menyimpan informasi apakah karakter berada di tanah
     public LayerMask targetlayer; // Layer yang dikategorikan sebagai tanah
     public Transform deteksitanah; // Posisi deteksi tanah
-    public float jangkauan; // Jarak deteksi tanah
+    private float jangkauan; // Jarak deteksi tanah
     public int heart; // Jumlah nyawa karakter
     Vector2 play; // Posisi checkpoint terakhir
     public bool play_again = false; // Menyimpan informasi apakah karakter dapat memulai dari checkpoint terakhir
-    [SerializeField] TMP_Text info_heart; // Komponen TextMeshPro untuk menampilkan jumlah nyawa
+    public Text info_heart; // Komponen TextMeshPro untuk menampilkan jumlah nyawa
     Animator anim; // Komponen Animator untuk mengatur animasi karakter
-    private NPC interactableNPC; // NPC yang dapat berinteraksi dengan pemain
-    private bool isDialogActive; // Menyimpan informasi apakah dialog sedang berlangsung
+    [SerializeField] Button dialogButton; // Tombol dialog
+    [SerializeField] GameObject dialogPanel;
 
     void Start()
     {
         play = transform.position;
         lompat = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
+        // dialogButton.onClick.AddListener(StartDialog);
+        dialogButton.gameObject.SetActive(false);
     }
 
     void Update()
     {
-        if (play_again == true)
+        if (play_again)
         {
             transform.position = play;
             play_again = false;
         }
 
-        if (tanah == false)
-        {
-            anim.SetBool("Jump", true);
-        }
-        else
-        {
-            anim.SetBool("Jump", false);
-        }
+        anim.SetBool("Jump", !tanah);
 
         tanah = Physics2D.OverlapCircle(deteksitanah.position, jangkauan, targetlayer);
         info_heart.text = "Life : " + heart.ToString();
 
-        // Cek apakah dialog sedang berlangsung
-        if (!isDialogActive)
+        if (!dialogPanel.activeSelf)
         {
-            // Gerakan karakter hanya saat dialog tidak aktif
             if (Input.GetKey(KeyCode.D))
             {
-                transform.Translate(Vector2.right * kecepatan * Time.deltaTime);
-                pindah = -1;
-                if (tanah == true)
-                {
-                    anim.SetBool("Run", true);
-                }
-                else
-                {
-                    anim.SetBool("Run", false);
-                }
+                Move(1);
             }
             else if (Input.GetKey(KeyCode.A))
             {
-                transform.Translate(Vector2.left * kecepatan * Time.deltaTime);
-                pindah = 1;
-                if (tanah == true)
-                {
-                    anim.SetBool("Run", true);
-                }
-                else
-                {
-                    anim.SetBool("Run", false);
-                }
+                Move(-1);
             }
             else
             {
                 anim.SetBool("Run", false);
             }
 
-            // Lompat karakter
-            if (tanah == true && Input.GetKeyDown(KeyCode.Space))
+            if (tanah && Input.GetKeyDown(KeyCode.Space))
             {
-                float x = lompat.velocity.x;
-                lompat.velocity = new Vector2(x, kekuatanlompat);
+                Jump();
             }
 
-            // Mengubah arah karakter
-            if (pindah > 0 && !balik)
+            if ((pindah > 0 && !balik) || (pindah < 0 && balik))
             {
-                flip();
-            }
-            else if (pindah < 0 && balik)
-            {
-                flip();
+                Flip();
             }
         }
 
-        // Menghentikan karakter jika nyawa habis
         if (heart < 1)
         {
             gameObject.SetActive(false);
             Debug.Log("Player Wafat");
         }
+    }
 
-        // Mengecek input pemain untuk memulai dialog dengan NPC
-        if (Input.GetKeyDown(KeyCode.E) && interactableNPC != null && !isDialogActive)
+    void Move(int direction)
+    {
+        transform.Translate(Vector2.right * kecepatan * direction * Time.deltaTime);
+        pindah = direction;
+
+        if (tanah)
         {
-            interactableNPC.StartDialog();
-            isDialogActive = true;
+            anim.SetBool("Run", true);
+        }
+        else
+        {
+            anim.SetBool("Run", false);
         }
     }
 
-    void flip()
+    void Jump()
+    {
+        float x = lompat.velocity.x;
+        lompat.velocity = new Vector2(x, kekuatanlompat);
+    }
+
+    void Flip()
     {
         balik = !balik;
         Vector3 Player = transform.localScale;
@@ -125,26 +107,35 @@ public class PlayerController : MonoBehaviour
         transform.localScale = Player;
     }
 
-    // Mengatur NPC yang dapat berinteraksi dengan pemain
-    public void SetInteractableNPC(NPC npc)
-    {
-        interactableNPC = npc;
-    }
-
     private void OnTriggerEnter2D(Collider2D other)
     {
-        // Pengecekan saat karakter menemukan checkpoint
         if (other.gameObject.tag == "Checkpoint")
         {
             play = other.transform.position;
             Debug.Log("Checkpoint");
             StopAllCoroutines();
         }
+
+
+        // if (other.gameObject.tag == "NPC")
+        // {
+        //     Debug.Log("NPC 1 Masuk");
+        //     dialogButton.gameObject.SetActive(true);
+        // }
     }
 
-    // Mematikan dialog dan mengaktifkan kembali kontrol pemain
-    public void EndDialog()
-    {
-        isDialogActive = false;
-    }
+    // private void OnTriggerExit2D(Collider2D other)
+    // {
+    //     if (other.gameObject.tag == "NPC")
+    //     {
+    //         Debug.Log("NPC 1 Keluar");
+    //         dialogButton.gameObject.SetActive(false);
+    //     }
+    // }
+
+    // public void StartDialog()
+    // {
+    //     dialogPanel.SetActive(true);
+    //     Debug.Log("Memulai percakapan dengan NPC");
+    // }
 }

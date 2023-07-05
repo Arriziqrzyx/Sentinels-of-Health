@@ -9,6 +9,7 @@ TagManager:
   - Ground
   - Checkpoint
   - Ranjau
+  - NPC
   layers:
   - Default
   - TransparentFX

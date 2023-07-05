@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class Dialogue : MonoBehaviour
 {
@@ -8,11 +9,15 @@ public class Dialogue : MonoBehaviour
     public string[] lines;
     public float textSpeed;
     private int index;
+    private PlayerController playerController;
 
     void Start()
     {
         textComponent.text = string.Empty;
         StartDialogue();
+
+        playerController = FindObjectOfType<PlayerController>();
+        playerController.enabled = false; // Menonaktifkan komponen PlayerController saat dialog dimulai
     }
 
     void Update()
@@ -57,12 +62,8 @@ public class Dialogue : MonoBehaviour
         else
         {
             gameObject.SetActive(false);
+            Debug.Log("percakapan berhenti");
+            playerController.enabled = true; // Mengaktifkan kembali komponen PlayerController setelah dialog selesai
         }
-    }
-
-    public void EndDialog()
-    {
-        // Logika untuk mengakhiri dialog dengan NPC
-        Debug.Log("Percakapan dengan NPC selesai");
     }
 }
