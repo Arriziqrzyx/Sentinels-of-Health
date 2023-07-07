@@ -36,7 +36,6 @@ public class FoodItem : MonoBehaviour
         else
         {
             pimanmanager.AddUnhealthyFood(); // Tambahkan makanan tidak sehat ke GameManager
-            pimanmanager.AddScore(-5); // Mengurangi skor -5 jika makanan tidak sehat diambil
             pimanmanager.DecreaseHealth(healthDecreaseAmount); // Mengurangi HP jika memilih makanan tidak sehat
         }
         Destroy(gameObject); // Menghapus makanan dari permainan setelah dipilih

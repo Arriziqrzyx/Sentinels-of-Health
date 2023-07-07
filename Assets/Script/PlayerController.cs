@@ -16,24 +16,32 @@ public class PlayerController : MonoBehaviour
     public Transform deteksitanah; // Posisi deteksi tanah
     private float jangkauan; // Jarak deteksi tanah
     public int heart; // Jumlah nyawa karakter
+    [SerializeField] private Text objectiveText;
+    public int go, totalPoints, objectivePoints;
+    [SerializeField] GameObject finishObject;
+    [SerializeField] private GameObject objectivePlayers;
     Vector2 play; // Posisi checkpoint terakhir
     public bool play_again = false; // Menyimpan informasi apakah karakter dapat memulai dari checkpoint terakhir
     public Text info_heart; // Komponen TextMeshPro untuk menampilkan jumlah nyawa
     Animator anim; // Komponen Animator untuk mengatur animasi karakter
-    [SerializeField] Button dialogButton; // Tombol dialog
-    [SerializeField] GameObject dialogPanel;
-
     void Start()
     {
         play = transform.position;
         lompat = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
-        // dialogButton.onClick.AddListener(StartDialog);
-        dialogButton.gameObject.SetActive(false);
+        totalPoints = objectivePlayers.transform.childCount;
     }
 
-    void Update()
+    public void Update()
     {
+        MethodObjectives();
+        go = objectivePlayers.transform.childCount;
+        if (go == 0)
+        {
+            finishObject.SetActive(true);
+            objectiveText.text = "Objective Complete!";
+        }
+
         if (play_again)
         {
             transform.position = play;
@@ -43,9 +51,8 @@ public class PlayerController : MonoBehaviour
         anim.SetBool("Jump", !tanah);
 
         tanah = Physics2D.OverlapCircle(deteksitanah.position, jangkauan, targetlayer);
-        info_heart.text = "Life : " + heart.ToString();
-
-        if (!dialogPanel.activeSelf)
+        info_heart.text = "Nyawa : " + heart.ToString();
+        
         {
             if (Input.GetKey(KeyCode.D))
             {
@@ -115,27 +122,10 @@ public class PlayerController : MonoBehaviour
             Debug.Log("Checkpoint");
             StopAllCoroutines();
         }
-
-
-        // if (other.gameObject.tag == "NPC")
-        // {
-        //     Debug.Log("NPC 1 Masuk");
-        //     dialogButton.gameObject.SetActive(true);
-        // }
     }
 
-    // private void OnTriggerExit2D(Collider2D other)
-    // {
-    //     if (other.gameObject.tag == "NPC")
-    //     {
-    //         Debug.Log("NPC 1 Keluar");
-    //         dialogButton.gameObject.SetActive(false);
-    //     }
-    // }
-
-    // public void StartDialog()
-    // {
-    //     dialogPanel.SetActive(true);
-    //     Debug.Log("Memulai percakapan dengan NPC");
-    // }
+    public void MethodObjectives()
+    {
+        objectiveText.text = "Find All The Objectives " + objectivePoints + "/" + totalPoints;
+    }
 }

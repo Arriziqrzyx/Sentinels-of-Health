@@ -10,6 +10,7 @@ TagManager:
   - Checkpoint
   - Ranjau
   - NPC
+  - NPC2
   layers:
   - Default
   - TransparentFX

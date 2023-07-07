@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine.SceneManagement;
@@ -13,6 +14,8 @@ public class PilihMakanManager : MonoBehaviour
     [SerializeField] float gameDuration = 60f;
     [SerializeField] TMP_Text healthText;
     [SerializeField] TMP_Text gameTimerText;
+    [SerializeField] TMP_Text scoreGameBerhasilText; // Teks untuk menampilkan skor saat game over
+    [SerializeField] TMP_Text scoreCobaLagiText; // Teks untuk menampilkan skor saat game over
     private float spawnTimer = 0f;
     private int spawnedFoodCount = 0;
     private int unhealthyFoodCount = 0;
@@ -21,7 +24,10 @@ public class PilihMakanManager : MonoBehaviour
     private int score = 0;
     private bool gameStarted = false;
     [SerializeField] private string Scene;
-    [SerializeField] GameObject Continue;
+    [SerializeField] GameObject PanelBerhasil;
+    [SerializeField] GameObject PanelCobalagi;
+    [SerializeField] GameObject UIAtas;
+    [SerializeField] private string Reload;
 
     private List<GameObject> foodObjects = new List<GameObject>();
 
@@ -71,6 +77,7 @@ public class PilihMakanManager : MonoBehaviour
     public void DecreaseHealth(int amount)
     {
         currentHealth -= amount;
+        score -= 5; // Mengurangi skor sebesar 5
 
         if (currentHealth <= 0)
         {
@@ -78,6 +85,8 @@ public class PilihMakanManager : MonoBehaviour
         }
 
         UpdateHealthText();
+        score = Mathf.Max(score, 0);
+        scoreText.text = "Score: " + score.ToString();
     }
 
     public void UpdateHealthText()
@@ -126,6 +135,7 @@ public class PilihMakanManager : MonoBehaviour
     public void AddScore(int scoreToAdd)
     {
         score += scoreToAdd;
+        score = Mathf.Max(score, 0);
         scoreText.text = "Score: " + score.ToString();
     }
 
@@ -140,12 +150,39 @@ public class PilihMakanManager : MonoBehaviour
     }
 
     public void GameOver()
+{
+    StopSpawning();
+    ClearFoodObjects();
+    StartCoroutine(ShowGameOverPanel());
+    Debug.Log("Game Over");
+}
+
+    private IEnumerator ShowGameOverPanel()
     {
-        Debug.Log("Game Over");
-        StopSpawning();
-        ClearFoodObjects();
-        Continue.SetActive(true);
+        yield return new WaitForSeconds(1f);
+        if (currentHealth <= 0)
+        {
+            PanelCobalagi.SetActive(true);
+            scoreCobaLagiText.text = "SCORE : " + score.ToString();
+        }
+        else
+        {
+            PanelBerhasil.SetActive(true);
+            scoreGameBerhasilText.text = "SCORE : " + score.ToString();
+        }
     }
+
+    IEnumerator LoadGame(string Name)
+    {
+        SceneManager.LoadScene(Name, LoadSceneMode.Additive);
+        yield return new WaitUntil(() => SceneManager.GetSceneByName(Name).isLoaded);
+    }
+
+    public void PlayAgain()
+    {
+        StartCoroutine(LoadGame(Reload));
+    }
+
 
     public void BackToGameplay()
     {

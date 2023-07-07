@@ -14,22 +14,18 @@ public class NPC1 : MonoBehaviour
     public string[] lines;
     public float textSpeed;
     private int index;
-    private PlayerController playerController;
+    public PlayerController playerController;
     [SerializeField] private string Level1;
 
-    // Start is called before the first frame update
     void Start()
     {
-        KomponenPlayer = GameObject.Find("Player").GetComponent<PlayerController>();
         dialogButton.onClick.AddListener(PanelDialogAktif);
         textComponent.text = string.Empty;
     }
 
-    // Update is called once per frame
-
-
-    void OnTriggerEnter2D(Collider2D other) {
-        if(other.transform.tag == "Player")
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.transform.tag == "Player")
         {
             Debug.Log("NPC 1 Masuk");
             dialogButton.gameObject.SetActive(true);
@@ -44,6 +40,7 @@ public class NPC1 : MonoBehaviour
             dialogButton.gameObject.SetActive(false);
         }
     }
+
     void Update()
     {
         if (Input.GetMouseButtonDown(0))
@@ -76,7 +73,7 @@ public class NPC1 : MonoBehaviour
         }
     }
 
-    void NextLine()
+    public void NextLine()
     {
         if (index < lines.Length - 1)
         {
@@ -88,10 +85,10 @@ public class NPC1 : MonoBehaviour
         {
             dialogPanel.SetActive(false);
             Debug.Log("percakapan berhenti");
-            // playerController.info_heart.gameObject.SetActive(false);
+            playerController.objectivePoints++;
             StartCoroutine(loadMiniGames(Level1));
-            gameObject.SetActive(false);
             playerController.enabled = true; // Mengaktifkan kembali komponen PlayerController setelah dialog selesai
+            Destroy(gameObject);
         }
     }
 
