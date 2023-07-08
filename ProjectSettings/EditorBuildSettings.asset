@@ -20,4 +20,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/PilihMakan.unity
     guid: 356f4c56fd57db441b9aebb3fff62427
+  - enabled: 1
+    path: Assets/Scenes/Quiz.unity
+    guid: 00aa86e42591f214ab6d8b4baff873c6
   m_configObjects: {}

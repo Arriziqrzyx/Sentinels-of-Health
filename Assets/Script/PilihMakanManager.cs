@@ -27,7 +27,6 @@ public class PilihMakanManager : MonoBehaviour
     [SerializeField] GameObject PanelBerhasil;
     [SerializeField] GameObject PanelCobalagi;
     [SerializeField] GameObject UIAtas;
-    [SerializeField] private string Reload;
 
     private List<GameObject> foodObjects = new List<GameObject>();
 
@@ -180,7 +179,7 @@ public class PilihMakanManager : MonoBehaviour
 
     public void PlayAgain()
     {
-        StartCoroutine(LoadGame(Reload));
+        StartCoroutine(LoadGame(Scene));
     }
 
 

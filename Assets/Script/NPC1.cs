@@ -1,95 +1,35 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-using TMPro;
 using UnityEngine.SceneManagement;
 
 public class NPC1 : MonoBehaviour
 {
-    PlayerController KomponenPlayer;
-    [SerializeField] Button dialogButton; // Tombol dialog
-    [SerializeField] GameObject dialogPanel;
-    public TextMeshProUGUI textComponent;
-    public string[] lines;
-    public float textSpeed;
-    private int index;
+    public GameObject Pesan;
+    [SerializeField] private string NPc1;
     public PlayerController playerController;
-    [SerializeField] private string Level1;
 
-    void Start()
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        dialogButton.onClick.AddListener(PanelDialogAktif);
-        textComponent.text = string.Empty;
-    }
-
-    void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.transform.tag == "Player")
+        if(other.gameObject.tag == "Player")
         {
-            Debug.Log("NPC 1 Masuk");
-            dialogButton.gameObject.SetActive(true);
+            Pesan.SetActive(true);
         }
     }
-
     private void OnTriggerExit2D(Collider2D other)
     {
         if (other.gameObject.tag == "Player")
         {
-            Debug.Log("NPC 1 Keluar");
-            dialogButton.gameObject.SetActive(false);
+            Pesan.SetActive(false);
         }
     }
 
-    void Update()
+    public void SceneLoader() 
     {
-        if (Input.GetMouseButtonDown(0))
-        {
-            if (textComponent.text == lines[index])
-            {
-                NextLine();
-            }
-            else
-            {
-                StopAllCoroutines();
-                textComponent.text = lines[index];
-            }
-        }
-    }
-
-    void PanelDialogAktif()
-    {
-        dialogPanel.SetActive(true);
-        playerController = FindObjectOfType<PlayerController>();
-        playerController.enabled = false; // Menonaktifkan komponen PlayerController saat dialog dimulai
-    }
-
-    IEnumerator TypeLine()
-    {
-        foreach (char c in lines[index].ToCharArray())
-        {
-            textComponent.text += c;
-            yield return new WaitForSeconds(textSpeed);
-        }
-    }
-
-    public void NextLine()
-    {
-        if (index < lines.Length - 1)
-        {
-            index++;
-            textComponent.text = string.Empty;
-            StartCoroutine(TypeLine());
-        }
-        else
-        {
-            dialogPanel.SetActive(false);
-            Debug.Log("percakapan berhenti");
-            playerController.objectivePoints++;
-            StartCoroutine(loadMiniGames(Level1));
-            playerController.enabled = true; // Mengaktifkan kembali komponen PlayerController setelah dialog selesai
-            Destroy(gameObject);
-        }
+        StartCoroutine(loadMiniGames(NPc1));
+        playerController.objectivePoints++;
+        Destroy(gameObject);
+        Debug.Log("Objek destroyed");
     }
 
     IEnumerator loadMiniGames(string Name)
@@ -97,4 +37,5 @@ public class NPC1 : MonoBehaviour
         SceneManager.LoadScene(Name, LoadSceneMode.Additive);
         yield return new WaitUntil(() => SceneManager.GetSceneByName(Name).isLoaded);
     }
+
 }
