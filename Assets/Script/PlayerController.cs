@@ -24,6 +24,10 @@ public class PlayerController : MonoBehaviour
     public bool play_again = false; // Menyimpan informasi apakah karakter dapat memulai dari checkpoint terakhir
     public Text info_heart; // Komponen TextMeshPro untuk menampilkan jumlah nyawa
     Animator anim; // Komponen Animator untuk mengatur animasi karakter
+    [SerializeField] AudioSource jumpAudio;
+    [SerializeField] AudioSource dieAudio;
+    [SerializeField] AudioSource checkpointAudio;
+    [SerializeField] AudioSource finishAudio;
     void Start()
     {
         play = transform.position;
@@ -45,6 +49,7 @@ public class PlayerController : MonoBehaviour
         if (play_again)
         {
             transform.position = play;
+            dieAudio.Play();
             play_again = false;
         }
 
@@ -104,6 +109,7 @@ public class PlayerController : MonoBehaviour
     {
         float x = lompat.velocity.x;
         lompat.velocity = new Vector2(x, kekuatanlompat);
+        jumpAudio.Play();
     }
 
     void Flip()
@@ -119,6 +125,7 @@ public class PlayerController : MonoBehaviour
         if (other.gameObject.tag == "Checkpoint")
         {
             play = other.transform.position;
+            checkpointAudio.Play();
             Debug.Log("Checkpoint");
             StopAllCoroutines();
         }

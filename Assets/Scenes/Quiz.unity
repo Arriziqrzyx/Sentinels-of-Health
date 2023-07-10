@@ -2250,7 +2250,7 @@ MonoBehaviour:
   questions:
   - question: Apa tahap pertama dalam mencuci tangan?
     answers:
-    - 'A. Membasuh dengan air bersih '
+    - A. Basahi tangan dengan air
     - 'B. Mengeringkan dengan handuk bersih '
     - 'C. Menggosok punggung tangan '
     - "D. Menggosok\_telapak\_tangan"
@@ -2269,10 +2269,10 @@ MonoBehaviour:
     - C. Membasuh menggunakan air bersih
     - D. Menggosok telapak tangan
     correctAnswerIndex: 0
-  - question: Bagaimana penyebaran bakteri rotavirus?
+  - question: Bagaimana virus diare dapat menyebar ke orang orang ?
     answers:
     - A. Dengan menyentuh kulit penderita
-    - B. Dengan menyentuh feses penderita
+    - B. Melal
     - C. Dengan melalui udara
     - D. Semua benar
     correctAnswerIndex: 1
