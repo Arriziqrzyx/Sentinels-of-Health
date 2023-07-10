@@ -4,41 +4,43 @@ using UnityEngine;
 
 public class FoodItem : MonoBehaviour
 {
-    [SerializeField] bool isHealthy; // Menandakan apakah makanan tersebut sehat atau tidak sehat
-    [SerializeField] float speed = 5f; // Kecepatan pergerakan makanan
-    [SerializeField] int healthDecreaseAmount = 1; // Jumlah HP yang berkurang saat memilih makanan tidak sehat
+    [SerializeField] bool isHealthy;
+    [SerializeField] float speed = 5f;
+    [SerializeField] int healthDecreaseAmount = 1;
     private Rigidbody2D rb;
     private PilihMakanManager pimanmanager;
+    [SerializeField] AudioSource audioBenar;
 
     private void Start()
     {
-        pimanmanager = FindObjectOfType<PilihMakanManager>(); // Mendapatkan referensi ke skrip Game Manager
+        pimanmanager = FindObjectOfType<PilihMakanManager>();
 
         rb = GetComponent<Rigidbody2D>();
-        rb.velocity = new Vector2(-speed, 0f); // Mengatur kecepatan awal makanan
+        rb.velocity = new Vector2(-speed, 0f);
     }
 
     private void Update()
     {
-        // Cek apakah makanan sudah mencapai batas kiri layar
         if (transform.position.x < -12f)
         {
-            Destroy(gameObject); // Menghapus makanan jika sudah mencapai batas kiri layar
+            Destroy(gameObject);
         }
     }
 
-    void OnMouseDown()
+    private void OnMouseDown()
     {
         if (isHealthy)
         {
-            pimanmanager.AddScore(10); // Menambahkan skor +10 jika makanan sehat diambil
+            pimanmanager.AddScore(10);
+            
         }
         else
         {
-            pimanmanager.AddUnhealthyFood(); // Tambahkan makanan tidak sehat ke GameManager
-            pimanmanager.DecreaseHealth(healthDecreaseAmount); // Mengurangi HP jika memilih makanan tidak sehat
+            pimanmanager.AddUnhealthyFood();
+            pimanmanager.DecreaseHealth(healthDecreaseAmount);
         }
-        Destroy(gameObject); // Menghapus makanan dari permainan setelah dipilih
-    }
 
+        Destroy(gameObject);
+        audioBenar.Play(); // Memainkan audio "benar" saat makanan sehat diklik
+    }
 }
