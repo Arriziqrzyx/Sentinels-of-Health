@@ -27,6 +27,8 @@ public class PilihMakanManager : MonoBehaviour
     [SerializeField] GameObject PanelBerhasil;
     [SerializeField] GameObject PanelCobalagi;
     [SerializeField] GameObject UIAtas;
+    [SerializeField] AudioSource audioBenar;
+    [SerializeField] AudioSource audioSalah;
 
     private List<GameObject> foodObjects = new List<GameObject>();
 
@@ -75,6 +77,7 @@ public class PilihMakanManager : MonoBehaviour
 
     public void DecreaseHealth(int amount)
     {
+        audioSalah.Play(); // Memainkan audio "salah" saat makanan tidak sehat diklik
         currentHealth -= amount;
         score -= 5; // Mengurangi skor sebesar 5
 
@@ -136,6 +139,7 @@ public class PilihMakanManager : MonoBehaviour
         score += scoreToAdd;
         score = Mathf.Max(score, 0);
         scoreText.text = "Score: " + score.ToString();
+        audioBenar.Play(); // Memainkan audio "benar" saat makanan sehat diklik
     }
 
     public void AddUnhealthyFood()
@@ -149,12 +153,12 @@ public class PilihMakanManager : MonoBehaviour
     }
 
     public void GameOver()
-{
-    StopSpawning();
-    ClearFoodObjects();
-    StartCoroutine(ShowGameOverPanel());
-    Debug.Log("Game Over");
-}
+    {
+        StopSpawning();
+        ClearFoodObjects();
+        StartCoroutine(ShowGameOverPanel());
+        Debug.Log("Game Over");
+    }
 
     private IEnumerator ShowGameOverPanel()
     {

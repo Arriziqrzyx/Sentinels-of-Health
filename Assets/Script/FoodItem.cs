@@ -7,9 +7,9 @@ public class FoodItem : MonoBehaviour
     [SerializeField] bool isHealthy;
     [SerializeField] float speed = 5f;
     [SerializeField] int healthDecreaseAmount = 1;
+
     private Rigidbody2D rb;
     private PilihMakanManager pimanmanager;
-    [SerializeField] AudioSource audioBenar;
 
     private void Start()
     {
@@ -21,7 +21,7 @@ public class FoodItem : MonoBehaviour
 
     private void Update()
     {
-        if (transform.position.x < -12f)
+        if (transform.position.x < -10f)
         {
             Destroy(gameObject);
         }
@@ -32,7 +32,6 @@ public class FoodItem : MonoBehaviour
         if (isHealthy)
         {
             pimanmanager.AddScore(10);
-            
         }
         else
         {
@@ -40,7 +39,6 @@ public class FoodItem : MonoBehaviour
             pimanmanager.DecreaseHealth(healthDecreaseAmount);
         }
 
-        Destroy(gameObject);
-        audioBenar.Play(); // Memainkan audio "benar" saat makanan sehat diklik
+        gameObject.SetActive(false);
     }
 }

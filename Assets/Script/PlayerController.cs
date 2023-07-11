@@ -43,7 +43,7 @@ public class PlayerController : MonoBehaviour
         if (go == 0)
         {
             finishObject.SetActive(true);
-            objectiveText.text = "Objective Complete!";
+            objectiveText.text = "Misi selesai";
         }
 
         if (play_again)
@@ -133,6 +133,6 @@ public class PlayerController : MonoBehaviour
 
     public void MethodObjectives()
     {
-        objectiveText.text = "Find All The Objectives " + objectivePoints + "/" + totalPoints;
+        objectiveText.text = "Misi: temui dokter " + objectivePoints + "/" + totalPoints;
     }
 }

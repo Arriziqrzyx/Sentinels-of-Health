@@ -68,9 +68,10 @@ using UnityEngine.UI;
         QualitySettings.SetQualityLevel(qualityIndex);
     }
 
-    public void SceneLoader(string sceneName) {
-            SceneManager.LoadScene(sceneName);
-        }
+    public void SceneLoader(string sceneName) 
+    {
+        SceneManager.LoadScene(sceneName);
+    }
 
         public void Keluar()
         {
