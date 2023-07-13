@@ -2271,8 +2271,8 @@ MonoBehaviour:
     correctAnswerIndex: 0
   - question: Bagaimana virus diare dapat menyebar ke orang orang ?
     answers:
-    - A. Dengan menyentuh kulit penderita
-    - B. Melal
+    - A. Melalui hewan
+    - B. Melalui tangan penderita yang jorok
     - C. Dengan melalui udara
     - D. Semua benar
     correctAnswerIndex: 1
@@ -2284,6 +2284,20 @@ MonoBehaviour:
     - C. Semakin sulit diobati
     - D. Semakin berkurang
     correctAnswerIndex: 3
+  - question: Kita boleh bermain di taman, tapi...
+    answers:
+    - A. Carilah tempat yang bersih
+    - B. Cuci tangan setelah bermain
+    - C. Jangan makan sambil bermain
+    - D. Semua benar
+    correctAnswerIndex: 3
+  - question: Setelah mencuci tangan, keringkan tangan menggunakan?
+    answers:
+    - A. Baju kotor
+    - B. Handuk bersih
+    - C. Kain lap dapur
+    - D. Gosokkan ke celana
+    correctAnswerIndex: 1
   questionText: {fileID: 466736841}
   answerButtons:
   - {fileID: 1125056939}

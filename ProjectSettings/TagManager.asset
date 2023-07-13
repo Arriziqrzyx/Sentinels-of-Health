@@ -11,6 +11,7 @@ TagManager:
   - Ranjau
   - NPC
   - NPC2
+  - Credit
   layers:
   - Default
   - TransparentFX

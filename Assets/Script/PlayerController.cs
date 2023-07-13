@@ -28,6 +28,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] AudioSource dieAudio;
     [SerializeField] AudioSource checkpointAudio;
     [SerializeField] AudioSource finishAudio;
+    [SerializeField] private string Rangkuman;
     void Start()
     {
         play = transform.position;
@@ -129,10 +130,25 @@ public class PlayerController : MonoBehaviour
             Debug.Log("Checkpoint");
             StopAllCoroutines();
         }
+        else
+        {
+            if (other.gameObject.CompareTag("Finish"))
+            {
+                StartCoroutine(loadMiniGames(Rangkuman));
+                Destroy(gameObject);
+                Debug.Log("Objek destroyed");
+            }
+        }
     }
 
     public void MethodObjectives()
     {
         objectiveText.text = "Misi: temui dokter " + objectivePoints + "/" + totalPoints;
+    }
+
+    IEnumerator loadMiniGames(string Name)
+    {
+        SceneManager.LoadScene(Name, LoadSceneMode.Additive);
+        yield return new WaitUntil(() => SceneManager.GetSceneByName(Name).isLoaded);
     }
 }

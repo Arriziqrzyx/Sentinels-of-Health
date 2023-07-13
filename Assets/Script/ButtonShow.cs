@@ -7,22 +7,21 @@ public class ButtonShow : MonoBehaviour
 {
     [SerializeField] GameObject Button;
 
-    private void OnTriggerExit2D(Collider2D other) {
+    private void Start()
+    {
+        SoundManager.Instance.musicSource.mute = true;
         Debug.Log("Trigger");
         StartCoroutine(Wait());
     }
 
     IEnumerator Wait()
     {
-        yield return new WaitForSeconds(6f);
+        yield return new WaitForSeconds(17.5f);
          Button.SetActive(true);
     }
 
     public void backToMain(string sceneName)
     {
         SceneManager.LoadScene(sceneName);
-        StopAllCoroutines();
-        Button.SetActive(false);
-        // SoundManager.Instance.musicSource.mute = true;
     }
 }
