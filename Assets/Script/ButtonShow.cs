@@ -12,6 +12,7 @@ public class ButtonShow : MonoBehaviour
         SoundManager.Instance.musicSource.mute = true;
         Debug.Log("Trigger");
         StartCoroutine(Wait());
+        SoundManager.Instance.musicSource.mute = true;
     }
 
     IEnumerator Wait()
@@ -23,5 +24,6 @@ public class ButtonShow : MonoBehaviour
     public void backToMain(string sceneName)
     {
         SceneManager.LoadScene(sceneName);
+        SoundManager.Instance.musicSource.mute = false;
     }
 }

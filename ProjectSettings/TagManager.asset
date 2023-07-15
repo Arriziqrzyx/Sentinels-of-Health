@@ -12,6 +12,7 @@ TagManager:
   - NPC
   - NPC2
   - Credit
+  - pop
   layers:
   - Default
   - TransparentFX
@@ -21,7 +22,7 @@ TagManager:
   - UI
   - Floor
   - Karakter
-  - 
+  - cekpoin
   - 
   - 
   - 

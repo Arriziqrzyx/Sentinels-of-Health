@@ -21,7 +21,7 @@ public class FoodItem : MonoBehaviour
 
     private void Update()
     {
-        if (transform.position.x < -10f)
+        if (transform.position.x < -12f)
         {
             Destroy(gameObject);
         }

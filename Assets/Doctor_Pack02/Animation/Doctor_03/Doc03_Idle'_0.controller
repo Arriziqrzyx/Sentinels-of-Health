@@ -141,7 +141,7 @@ AnimatorController:
   m_Name: Doc03_Idle'_0
   serializedVersion: 5
   m_AnimatorParameters:
-  - m_Name: Interaction
+  - m_Name: Interacting
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
@@ -169,7 +169,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 2
-    m_ConditionEvent: Interaction
+    m_ConditionEvent: Interacting
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -1469369860172170323}
@@ -231,7 +231,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: Interaction
+    m_ConditionEvent: Interacting
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -7108472378283270426}

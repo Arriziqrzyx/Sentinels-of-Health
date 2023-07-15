@@ -12,9 +12,6 @@ EditorBuildSettings:
     path: Assets/Scenes/Rangkuman.unity
     guid: fd555963a17b68c4881ec3af7473aa5a
   - enabled: 1
-    path: Assets/Scenes/PilihMakan.unity
-    guid: 206356a2b127c534f8f21d495a61b183
-  - enabled: 1
     path: Assets/Scenes/platformer.unity
     guid: 18a06523177c36544a2b3943fc0155ae
   - enabled: 1
@@ -23,6 +20,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Quiz.unity
     guid: 00aa86e42591f214ab6d8b4baff873c6
+  - enabled: 1
+    path: Assets/Scenes/Quiz 1.unity
+    guid: b01195c1bbd110e4395844bb44a50d4a
   - enabled: 1
     path: Assets/Scenes/Credit.unity
     guid: 29c6dfa059fcdaa4aa2364fff0b8ce1c

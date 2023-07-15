@@ -14,12 +14,12 @@ public class PlayerController : MonoBehaviour
     public bool tanah; // Menyimpan informasi apakah karakter berada di tanah
     public LayerMask targetlayer; // Layer yang dikategorikan sebagai tanah
     public Transform deteksitanah; // Posisi deteksi tanah
-    private float jangkauan; // Jarak deteksi tanah
+    public float jangkauan; // Jarak deteksi tanah
     public int heart; // Jumlah nyawa karakter
     [SerializeField] private Text objectiveText;
     public int go, totalPoints, objectivePoints;
     [SerializeField] GameObject finishObject;
-    [SerializeField] private GameObject objectivePlayers;
+    [SerializeField] GameObject objectivePlayers;
     Vector2 play; // Posisi checkpoint terakhir
     public bool play_again = false; // Menyimpan informasi apakah karakter dapat memulai dari checkpoint terakhir
     public Text info_heart; // Komponen TextMeshPro untuk menampilkan jumlah nyawa
@@ -27,11 +27,17 @@ public class PlayerController : MonoBehaviour
     [SerializeField] AudioSource jumpAudio;
     [SerializeField] AudioSource dieAudio;
     [SerializeField] AudioSource checkpointAudio;
-    [SerializeField] AudioSource finishAudio;
+    public GameObject over;
+    private bool Button_kiri; //Variabel untuk Button Kiri
+    private bool Button_kanan; //Variabel untuk Button Kanan
+    private bool Button_lompat;
     [SerializeField] private string Rangkuman;
+    public bool canMove = true; // Menyimpan informasi apakah pemain dapat bergerak
+
     void Start()
     {
         play = transform.position;
+        over.SetActive(false);
         lompat = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         totalPoints = objectivePlayers.transform.childCount;
@@ -59,12 +65,13 @@ public class PlayerController : MonoBehaviour
         tanah = Physics2D.OverlapCircle(deteksitanah.position, jangkauan, targetlayer);
         info_heart.text = "Nyawa : " + heart.ToString();
         
+        if (canMove)
         {
-            if (Input.GetKey(KeyCode.D))
+            if (Input.GetKey(KeyCode.D) || Button_kanan)
             {
                 Move(1);
             }
-            else if (Input.GetKey(KeyCode.A))
+            else if (Input.GetKey(KeyCode.A) || Button_kiri)
             {
                 Move(-1);
             }
@@ -73,7 +80,7 @@ public class PlayerController : MonoBehaviour
                 anim.SetBool("Run", false);
             }
 
-            if (tanah && Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetKeyDown(KeyCode.Space))
             {
                 Jump();
             }
@@ -83,11 +90,17 @@ public class PlayerController : MonoBehaviour
                 Flip();
             }
         }
+        else
+        {
+            anim.SetBool("Run", false);
+        }
 
         if (heart < 1)
         {
             gameObject.SetActive(false);
             Debug.Log("Player Wafat");
+
+            over.SetActive(true);
         }
     }
 
@@ -108,9 +121,13 @@ public class PlayerController : MonoBehaviour
 
     void Jump()
     {
-        float x = lompat.velocity.x;
-        lompat.velocity = new Vector2(x, kekuatanlompat);
-        jumpAudio.Play();
+        if (tanah == true)
+        {
+            float x = lompat.velocity.x;
+            lompat.velocity = new Vector2(x, kekuatanlompat);
+            jumpAudio.Play();
+            Debug.Log("lompat");
+        }
     }
 
     void Flip()
@@ -130,20 +147,52 @@ public class PlayerController : MonoBehaviour
             Debug.Log("Checkpoint");
             StopAllCoroutines();
         }
-        else
+        else if (other.gameObject.CompareTag("Finish"))
         {
-            if (other.gameObject.CompareTag("Finish"))
-            {
-                StartCoroutine(loadMiniGames(Rangkuman));
-                Destroy(gameObject);
-                Debug.Log("Objek destroyed");
-            }
+            StartCoroutine(loadMiniGames(Rangkuman));
+            Destroy(gameObject);
+            Debug.Log("Objek destroyed");
         }
+    }
+
+    public void tekan_kiri()
+    {
+        Button_kiri = true; // Ketika ditekan
+    }
+
+    public void Lepas_kiri()
+    {
+        Button_kiri = false; // Ketika dilepas
+    }
+
+    public void tekan_kanan()
+    {
+        Button_kanan = true; // Ketika ditekan
+    }
+
+    public void lepas_kanan()
+    {
+        Button_kanan = false; // Ketika dilepas
+    }
+
+    public void tekan_lompat()
+    {
+        Jump();
     }
 
     public void MethodObjectives()
     {
         objectiveText.text = "Misi: temui dokter " + objectivePoints + "/" + totalPoints;
+    }
+
+    public void SceneLoader(string sceneName) 
+    {
+        SceneManager.LoadScene(sceneName);
+    }
+
+    public void RestarLevel()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     IEnumerator loadMiniGames(string Name)
@@ -152,3 +201,4 @@ public class PlayerController : MonoBehaviour
         yield return new WaitUntil(() => SceneManager.GetSceneByName(Name).isLoaded);
     }
 }
+
