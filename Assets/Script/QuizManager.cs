@@ -11,7 +11,6 @@ public class QuizManager : MonoBehaviour
     private int currentQuestionIndex; // Indeks pertanyaan saat ini
     public TMP_Text questionText; // Teks pertanyaan
     public Button[] answerButtons; // Tombol opsi jawaban
-    public GameObject resultPanel; // Panel hasil akhir
     public GameObject successPanel; // Panel hasil "Berhasil"
     public GameObject failPanel; // Panel hasil "Kalah"
     public TMP_Text resultWinText; // Teks hasil akhir
@@ -64,10 +63,7 @@ public class QuizManager : MonoBehaviour
     }
 
     private void ShowResult()
-    {
-        // Menampilkan hasil akhir
-        resultPanel.SetActive(true);
-        
+    {   
         if (correctAnswersCount == questions.Length)
         {
             successPanel.SetActive(true); // Tampilkan panel "Berhasil"
