@@ -19,6 +19,7 @@ public class SoundManager : MonoBehaviour
         {
             Instance = this;
             DontDestroyOnLoad(this);
+            musicSlider.value = 1f;
         }
         else
         {

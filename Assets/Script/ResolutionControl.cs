@@ -25,8 +25,13 @@ public class ResolutionControl : MonoBehaviour
         refreshRateOptions.Add("30 FPS");
         refreshRateDropdown.AddOptions(refreshRateOptions);
 
-        // Mengatur nilai default pada dropdown
-        aspectRatioDropdown.value = GetAspectRatioIndex(Screen.width, Screen.height);
+        // Mengatur nilai default pada dropdown berdasarkan PlayerPrefs
+        aspectRatioDropdown.value = PlayerPrefs.GetInt("AspectRatioIndex", 0);
+        refreshRateDropdown.value = PlayerPrefs.GetInt("RefreshRateIndex", 0);
+
+        // Mengatur "Target Frame Rate" berdasarkan pilihan refresh rate default (60 FPS)
+        int defaultRefreshRate = GetRefreshRateValue(refreshRateDropdown.value);
+        Application.targetFrameRate = defaultRefreshRate;
     }
 
     public void SetAspectRatio(int aspectRatioIndex)
@@ -35,7 +40,31 @@ public class ResolutionControl : MonoBehaviour
         int screenWidth = Mathf.RoundToInt(Screen.currentResolution.height * aspectRatio);
         int screenHeight = Screen.currentResolution.height;
         int refreshRate = GetRefreshRateValue(refreshRateDropdown.value);
+
+        // Mengatur "Target Frame Rate" berdasarkan pilihan refresh rate
+        Application.targetFrameRate = refreshRate;
+
         Screen.SetResolution(screenWidth, screenHeight, Screen.fullScreen, refreshRate);
+
+        // Cetak pesan ke konsol saat memilih aspect ratio
+        Debug.Log("Aspect Ratio selected: " + aspectRatioOptions[aspectRatioIndex]);
+
+        // Simpan pilihan aspect ratio ke PlayerPrefs
+        PlayerPrefs.SetInt("AspectRatioIndex", aspectRatioIndex);
+    }
+
+    public void SetRefreshRate(int refreshRateIndex)
+    {
+        int refreshRate = GetRefreshRateValue(refreshRateIndex);
+
+        // Mengatur "Target Frame Rate" berdasarkan pilihan refresh rate
+        Application.targetFrameRate = refreshRate;
+
+        // Cetak pesan ke konsol saat memilih refresh rate
+        Debug.Log("Refresh Rate selected: " + refreshRateOptions[refreshRateIndex]);
+
+        // Simpan pilihan refresh rate ke PlayerPrefs
+        PlayerPrefs.SetInt("RefreshRateIndex", refreshRateIndex);
     }
 
     private float GetAspectRatioValue(int aspectRatioIndex)
@@ -56,30 +85,6 @@ public class ResolutionControl : MonoBehaviour
         }
 
         return aspectRatio;
-    }
-
-    private int GetAspectRatioIndex(int screenWidth, int screenHeight)
-    {
-        float aspectRatio = (float)screenWidth / screenHeight;
-
-        if (Mathf.Approximately(aspectRatio, 16f / 9f))
-        {
-            return 0;
-        }
-        else if (Mathf.Approximately(aspectRatio, 18f / 9f))
-        {
-            return 1;
-        }
-        else if (Mathf.Approximately(aspectRatio, 19f / 9f))
-        {
-            return 2;
-        }
-        else if (Mathf.Approximately(aspectRatio, 20f / 9f))
-        {
-            return 3;
-        }
-
-        return 0; // Nilai default jika aspect ratio tidak ditemukan
     }
 
     private int GetRefreshRateValue(int refreshRateIndex)

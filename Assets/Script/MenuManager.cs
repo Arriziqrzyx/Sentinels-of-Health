@@ -11,8 +11,23 @@ using UnityEngine.UI;
     [SerializeField] private GameObject virus2;
     [SerializeField] private GameObject virus3;
     [SerializeField] private GameObject Judul;
-    public Slider musicSlider;
     public Toggle musicToggle;
+    public Slider musicSlider;
+
+
+    private void Awake()
+    {
+        if (SoundManager.Instance.musicSource.mute == true)
+        {
+            musicToggle.isOn = false;
+            Debug.Log("Status Music Mute:" + SoundManager.Instance.musicSource.mute);
+        }
+        else
+        {
+            musicToggle.isOn = true;
+            Debug.Log("Status Music Mute :" + SoundManager.Instance.musicSource.mute);
+        }
+    }
 
     void Start()
     {
@@ -32,17 +47,12 @@ using UnityEngine.UI;
             .SetEase(Ease.InOutBack)
             .SetLoops(-1, LoopType.Yoyo);
 
-        musicSlider.value = 1f;
+        musicSlider.value = SoundManager.Instance.musicSource.volume;
+        SoundManager.Instance.MusicLoadVolume();
+        Debug.Log("Volume Music : " + musicSlider.value);
     }
 
-    public void pauseGame(){
-        Time.timeScale = 0;
-    }
-    public void PlayGame(){
-        Time.timeScale = 1;
-    }
-
-        public void MusicSliderVolume()
+    public void MusicSliderVolume()
     {
         SoundManager.Instance.musicSource.volume = musicSlider.value;
         Debug.Log("Volume Music : " + musicSlider.value);
@@ -62,6 +72,12 @@ using UnityEngine.UI;
         }
     }
 
+    public void pauseGame(){
+        Time.timeScale = 0;
+    }
+    public void PlayGame(){
+        Time.timeScale = 1;
+    }
     public void SceneLoader(string sceneName)
     {
         SceneManager.LoadScene(sceneName);

@@ -121,13 +121,16 @@ public class PlayerController : MonoBehaviour
 
     void Jump()
     {
-        if (tanah == true)
-        {
+        if (canMove)
+       {
+            if (tanah == true)
+            {
             float x = lompat.velocity.x;
             lompat.velocity = new Vector2(x, kekuatanlompat);
             jumpAudio.Play();
             Debug.Log("lompat");
-        }
+            }
+       } 
     }
 
     void Flip()
