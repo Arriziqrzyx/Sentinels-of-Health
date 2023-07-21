@@ -17603,8 +17603,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Hai, apakah kamu sudah mengetahui apa itu virus penyebab diare dan cara
-    cuci tangan dengan benar? Ayo kerjakan kuis bersamaku!
+  m_text: Hai, apakah kamu sudah mengetahui apa saja makanan sehat dan tidak sehat
+    bagi penderita diare? ayo kerjakan kuis bersamaku.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 641a883aa4076a14bb71f85c06661fc6, type: 2}
   m_sharedMaterial: {fileID: 6835766536408380094, guid: 641a883aa4076a14bb71f85c06661fc6, type: 2}
