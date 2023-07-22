@@ -9,10 +9,10 @@ public class ButtonShow : MonoBehaviour
 
     private void Start()
     {
-        // SoundManager.Instance.musicSource.mute = true;
+        SoundManager.Instance.musicSource.mute = true;
         Debug.Log("Trigger");
         StartCoroutine(Wait());
-        // SoundManager.Instance.musicSource.mute = true;
+        SoundManager.Instance.musicSource.mute = true;
     }
 
     IEnumerator Wait()
