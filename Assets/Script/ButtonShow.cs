@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class ButtonShow : MonoBehaviour
 {
@@ -12,7 +13,6 @@ public class ButtonShow : MonoBehaviour
         SoundManager.Instance.musicSource.mute = true;
         Debug.Log("Trigger");
         StartCoroutine(Wait());
-        SoundManager.Instance.musicSource.mute = true;
     }
 
     IEnumerator Wait()

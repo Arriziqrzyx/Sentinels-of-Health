@@ -156,8 +156,15 @@ public class PilihMakanManager : MonoBehaviour
     {
         StopSpawning();
         ClearFoodObjects();
+        MultiplyScoreWithHealth(); // Panggil fungsi untuk mengalikan skor dengan sisa HP saat game over
         StartCoroutine(ShowGameOverPanel());
         Debug.Log("Game Over");
+    }
+
+    private void MultiplyScoreWithHealth()
+    {
+        int multipliedScore = score * currentHealth;
+        score = Mathf.Max(multipliedScore, 0);
     }
 
     private IEnumerator ShowGameOverPanel()
@@ -167,11 +174,32 @@ public class PilihMakanManager : MonoBehaviour
         {
             PanelCobalagi.SetActive(true);
             scoreCobaLagiText.text = "SCORE : " + score.ToString();
+
+            PlayerPrefs.SetInt("FinalScore", score); // Menyimpan skor akhir ke PlayerPrefs
+            PlayerPrefs.Save();
+
+            int highScore = PlayerPrefs.GetInt("HighScore", 0);
+            if (score > highScore)
+            {
+                PlayerPrefs.SetInt("HighScore", score);
+                PlayerPrefs.Save();
+            }
         }
         else
         {
             PanelBerhasil.SetActive(true);
             scoreGameBerhasilText.text = "SCORE : " + score.ToString();
+
+            PlayerPrefs.SetInt("FinalScore", score); // Menyimpan skor akhir ke PlayerPrefs
+            PlayerPrefs.Save();
+
+            // Cek dan simpan highscore jika perlu
+            int highScore = PlayerPrefs.GetInt("HighScore", 0);
+            if (score > highScore)
+            {
+                PlayerPrefs.SetInt("HighScore", score);
+                PlayerPrefs.Save();
+            }
         }
     }
 

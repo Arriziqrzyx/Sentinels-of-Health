@@ -39,6 +39,6 @@ public class FoodItem : MonoBehaviour
             pimanmanager.DecreaseHealth(healthDecreaseAmount);
         }
 
-        gameObject.SetActive(false);
+        Destroy(gameObject);
     }
 }

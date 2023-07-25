@@ -4,6 +4,7 @@ using UnityEngine;
 using DG.Tweening;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using TMPro;
 
  public class MenuManager : MonoBehaviour
 {
@@ -13,6 +14,9 @@ using UnityEngine.UI;
     [SerializeField] private GameObject Judul;
     public Toggle musicToggle;
     public Slider musicSlider;
+    public GameObject finishObjectMenu; // Objek yang ingin diaktifkan di menu
+    public TMP_Text highScoreText;
+    public TMP_Text bestTimeText;
 
 
     private void Awake()
@@ -31,6 +35,9 @@ using UnityEngine.UI;
 
     void Start()
     {
+        // PlayerPrefs.DeleteAll();
+        // PlayerPrefs.Save();
+        
         virus1.transform.DOMoveY(4.0f, 2.5f)
             .SetLoops(-1, LoopType.Yoyo)
             .SetEase(Ease.InOutBack);
@@ -50,6 +57,20 @@ using UnityEngine.UI;
         musicSlider.value = SoundManager.Instance.musicSource.volume;
         SoundManager.Instance.MusicLoadVolume();
         Debug.Log("Volume Music : " + musicSlider.value);
+
+        if (PlayerPrefs.GetInt("FinishTouched", 0) == 1)
+        {
+            finishObjectMenu.SetActive(true);
+        }
+
+        int highScore = PlayerPrefs.GetInt("HighScore", 0); // Ambil nilai skor tertinggi dari PlayerPrefs
+        highScoreText.text = "Skor: " + highScore.ToString();
+
+        float bestPlayTime = PlayerPrefs.GetFloat("BestPlayTime", Mathf.Infinity);
+        int bestMinutes = Mathf.FloorToInt(bestPlayTime / 60f);
+        int bestSeconds = Mathf.FloorToInt(bestPlayTime % 60f);
+        bestTimeText.text = "Durasi: " + bestMinutes.ToString() + ":" + bestSeconds.ToString();
+        
     }
 
     public void MusicSliderVolume()

@@ -33,6 +33,12 @@ public class PlayerController : MonoBehaviour
     private bool Button_lompat;
     [SerializeField] private string Rangkuman;
     public bool canMove = true; // Menyimpan informasi apakah pemain dapat bergerak
+    private float playTime;
+    private bool gameIsPlaying;
+    public static float finalPlayTime;
+    private float bestPlayTime;
+
+
 
     void Start()
     {
@@ -41,10 +47,19 @@ public class PlayerController : MonoBehaviour
         lompat = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         totalPoints = objectivePlayers.transform.childCount;
+        playTime = 0f;
+        gameIsPlaying = true;
+        bestPlayTime = PlayerPrefs.GetFloat("BestPlayTime", Mathf.Infinity);
     }
 
     public void Update()
     {
+        if (gameIsPlaying)
+        {
+        playTime += Time.deltaTime;
+        Debug.Log("Play Time: " + playTime);
+        }
+
         MethodObjectives();
         go = objectivePlayers.transform.childCount;
         if (go == 0)
@@ -101,6 +116,8 @@ public class PlayerController : MonoBehaviour
             Debug.Log("Player Wafat");
 
             over.SetActive(true);
+            GameOver();
+            finalPlayTime = playTime;
         }
     }
 
@@ -155,6 +172,11 @@ public class PlayerController : MonoBehaviour
             StartCoroutine(loadMiniGames(Rangkuman));
             Destroy(gameObject);
             Debug.Log("Objek destroyed");
+            GameOver();
+            
+            PlayerPrefs.SetInt("FinishTouched", 1);
+            Debug.Log("FINISH TOUCH");
+            PlayerPrefs.Save();
         }
     }
 
@@ -203,5 +225,18 @@ public class PlayerController : MonoBehaviour
         SceneManager.LoadScene(Name, LoadSceneMode.Additive);
         yield return new WaitUntil(() => SceneManager.GetSceneByName(Name).isLoaded);
     }
+
+    private void GameOver()
+    {
+    gameIsPlaying = false;
+    PlayerPrefs.SetFloat("PlayTime", playTime);
+
+    if (playTime < bestPlayTime)
+        {
+            bestPlayTime = playTime;
+            PlayerPrefs.SetFloat("BestPlayTime", bestPlayTime);
+        }
+    }
+
 }
 
