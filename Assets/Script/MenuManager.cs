@@ -12,26 +12,10 @@ using TMPro;
     [SerializeField] private GameObject virus2;
     [SerializeField] private GameObject virus3;
     [SerializeField] private GameObject Judul;
-    public Toggle musicToggle;
-    public Slider musicSlider;
     public GameObject finishObjectMenu; // Objek yang ingin diaktifkan di menu
     public TMP_Text highScoreText;
     public TMP_Text bestTimeText;
 
-
-    private void Awake()
-    {
-        if (SoundManager.Instance.musicSource.mute == true)
-        {
-            musicToggle.isOn = false;
-            Debug.Log("Status Music Mute:" + SoundManager.Instance.musicSource.mute);
-        }
-        else
-        {
-            musicToggle.isOn = true;
-            Debug.Log("Status Music Mute :" + SoundManager.Instance.musicSource.mute);
-        }
-    }
 
     void Start()
     {
@@ -54,44 +38,24 @@ using TMPro;
             .SetEase(Ease.InOutBack)
             .SetLoops(-1, LoopType.Yoyo);
 
-        musicSlider.value = SoundManager.Instance.musicSource.volume;
-        SoundManager.Instance.MusicLoadVolume();
-        Debug.Log("Volume Music : " + musicSlider.value);
-
+        // Cek kondisi di awal
         if (PlayerPrefs.GetInt("FinishTouched", 0) == 1)
         {
             finishObjectMenu.SetActive(true);
         }
 
-        int highScore = PlayerPrefs.GetInt("HighScore", 0); // Ambil nilai skor tertinggi dari PlayerPrefs
+        // Memperbarui antarmuka pengguna (UI) secara langsung di luar blok kondisional
+        Canvas.ForceUpdateCanvases();
+
+        int highScore = PlayerPrefs.GetInt("HighScore", 0);
         highScoreText.text = "Skor: " + highScore.ToString();
 
         float bestPlayTime = PlayerPrefs.GetFloat("BestPlayTime", Mathf.Infinity);
         int bestMinutes = Mathf.FloorToInt(bestPlayTime / 60f);
         int bestSeconds = Mathf.FloorToInt(bestPlayTime % 60f);
         bestTimeText.text = "Durasi: " + bestMinutes.ToString() + ":" + bestSeconds.ToString();
-        
     }
 
-    public void MusicSliderVolume()
-    {
-        SoundManager.Instance.musicSource.volume = musicSlider.value;
-        Debug.Log("Volume Music : " + musicSlider.value);
-    }
-
-    public void MusicSetMute()
-    {
-        if (musicToggle.isOn == true)
-        {
-            SoundManager.Instance.musicSource.mute = false;
-            Debug.Log("Status Music Mute :" + SoundManager.Instance.musicSource.mute);
-        }
-        else
-        {
-            SoundManager.Instance.musicSource.mute = true;
-            Debug.Log("Status Music Mute :" + SoundManager.Instance.musicSource.mute);
-        }
-    }
 
     public void pauseGame(){
         Time.timeScale = 0;
@@ -102,11 +66,5 @@ using TMPro;
     public void SceneLoader(string sceneName)
     {
         SceneManager.LoadScene(sceneName);
-    }
-
-        public void Keluar()
-        {
-            Debug.Log ("KAMU TELAH KELUAR!");
-            Application.Quit();
     }
 }

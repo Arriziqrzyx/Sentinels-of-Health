@@ -1709,10 +1709,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Stage Ends\nThanks for Playing\n\n\n\nDeveloper Team\n\nArriziq \nTanthy
-    Aisyah Al Muslih\n\n\n\nDosen Pendamping\n\nWiga Maulana Baihaqi, S.Kom., M.Eng.\nDani
-    Arifudin, M.Kom\n\n\n\nSpecial Thanks\n\nDosen Penguji\nProdi Teknologi Informasi\nFakultas
-    Ilmu Komputer\nUniversitas Amikom Purwokerto\n"
+  m_text: "Stage Ends\nThanks for Playing\n\n\n\nDeveloper Team\n\nArriziq \n\n\n\nDosen
+    Pendamping\n\nDr. Rujianto Eko Saputro, M.Kom.\nDani Arifudin, M.Kom.\n\n\n\nSpecial
+    Thanks\n\nDosen Penguji\nProdi Teknologi Informasi\nFakultas Ilmu Komputer\nUniversitas
+    Amikom Purwokerto\n"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 641a883aa4076a14bb71f85c06661fc6, type: 2}
   m_sharedMaterial: {fileID: 6835766536408380094, guid: 641a883aa4076a14bb71f85c06661fc6, type: 2}
@@ -2122,7 +2122,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 5054614928191496492}
         m_TargetAssemblyTypeName: ButtonShow, Assembly-CSharp
-        m_MethodName: backToMain
+        m_MethodName: LoadScene
         m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

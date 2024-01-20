@@ -210,11 +210,6 @@ public class PlayerController : MonoBehaviour
         objectiveText.text = "Misi: temui dokter " + objectivePoints + "/" + totalPoints;
     }
 
-    public void SceneLoader(string sceneName) 
-    {
-        SceneManager.LoadScene(sceneName);
-    }
-
     public void RestarLevel()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
@@ -239,4 +234,3 @@ public class PlayerController : MonoBehaviour
     }
 
 }
-

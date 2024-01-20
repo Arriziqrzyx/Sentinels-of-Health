@@ -1,59 +1,51 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.UI;
 
 public class SoundManager : MonoBehaviour
 {
-
-    public AudioSource musicSource;
-    public Toggle musicToggle;
-    public Slider musicSlider;
-
-    // * agar audio bisa di putar di berbagai scene
+    [SerializeField] AudioMixer audioMixer;
+    [SerializeField] Slider BGM;
+    [SerializeField] Slider SFX;
     public static SoundManager Instance { get; set; }
 
     private void Awake()
     {
+        // Inisialisasi singleton
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(this);
-            musicSlider.value = 1f;
+            DontDestroyOnLoad(gameObject);
         }
         else
         {
             Destroy(gameObject);
         }
+
+        float db;
+
+        // Mengatur nilai awal slider berdasarkan nilai mixer
+        if (audioMixer.GetFloat("BGMVol", out db))
+            BGM.value = (db + 80) / 80;
+
+        if (audioMixer.GetFloat("SFXVol", out db))
+            SFX.value = (db + 80) / 80;
     }
 
-    // * untuk mengatur volume music dengan slidder
-    public void MusicSaveVolume()
+    public void SetBGMVolume(float volume)
     {
-        Instance.musicSource.volume = musicSlider.value;
-        PlayerPrefs.SetFloat("musicValue", musicSlider.value);
-        MusicLoadVolume();
-        Debug.Log("Set Volume" + musicSlider.value);
+        volume = volume * 80 - 80;
+        audioMixer.SetFloat("BGMVol", volume);
+        PlayerPrefs.SetFloat("BGMVol", volume);
+        PlayerPrefs.Save();
     }
 
-    // * untuk meload volume music
-    public void MusicLoadVolume()
+    public void SetSFXVolume(float volume)
     {
-        float musicVolumeValue = PlayerPrefs.GetFloat("musicValue");
-        musicSlider.value = musicVolumeValue;
-        Debug.Log("VOLUME SET LOAD VALUE : " + musicVolumeValue);
-    }
-
-    // * mute music
-    public void MuteSound()
-    {
-        if (musicToggle.isOn == true)
-        {
-            musicSource.mute = false;
-        }
-        else
-        {
-            musicSource.mute = true;
-        }
+        volume = volume * 80 - 80;
+        audioMixer.SetFloat("SFXVol", volume);
+        PlayerPrefs.SetFloat("SFXVol", volume);
+        PlayerPrefs.Save();
     }
 }

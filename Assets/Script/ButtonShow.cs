@@ -7,23 +7,25 @@ using TMPro;
 public class ButtonShow : MonoBehaviour
 {
     [SerializeField] GameObject Button;
+    private string sceneToLoad; // Nama scene yang akan dimuat
 
     private void Start()
     {
-        SoundManager.Instance.musicSource.mute = true;
-        Debug.Log("Trigger");
-        StartCoroutine(Wait());
+        SoundManager.Instance.SetBGMVolume(0f);
+        Debug.Log("Pemicu");
+        StartCoroutine(Tunggu());
     }
 
-    IEnumerator Wait()
+    IEnumerator Tunggu()
     {
         yield return new WaitForSeconds(17.5f);
-         Button.SetActive(true);
+        Button.SetActive(true);
     }
 
-    public void backToMain(string sceneName)
+    public void LoadScene(string sceneName)
     {
-        SceneManager.LoadScene(sceneName);
-        SoundManager.Instance.musicSource.mute = false;
+        sceneToLoad = sceneName;
+        SceneManager.LoadScene(sceneToLoad);
+        SoundManager.Instance.SetBGMVolume(1f); // Mengatur volume BGM menjadi 1
     }
 }
